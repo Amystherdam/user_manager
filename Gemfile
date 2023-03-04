@@ -15,6 +15,9 @@ gem "pg", "~> 1.1"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
 
+# Flexible authentication solution for Rails with Warden [https://github.com/heartcombo/devise]
+gem 'devise'
+
 # Bundle and transpile JavaScript [https://github.com/rails/jsbundling-rails]
 # gem "jsbundling-rails"
 
