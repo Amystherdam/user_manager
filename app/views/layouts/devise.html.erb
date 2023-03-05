@@ -6,14 +6,11 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application" %>
-    <%= javascript_include_tag "application" %>
+    <%= stylesheet_link_tag "devise" %>
+    <%= javascript_include_tag "devise" %>
   </head>
 
   <body>
-    <%= button_to destroy_user_session_path, method: :delete do %>
-      Logout
-    <% end %>
     <%= yield %>
   </body>
 </html>
