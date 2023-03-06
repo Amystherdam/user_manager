@@ -17,6 +17,7 @@ gem "puma", "~> 5.0"
 
 # Flexible authentication solution for Rails with Warden [https://github.com/heartcombo/devise]
 gem 'devise'
+gem "pundit", "~> 2.3"
 
 # Bundle and transpile JavaScript [https://github.com/rails/jsbundling-rails]
 # gem "jsbundling-rails"
@@ -33,24 +34,18 @@ gem 'devise'
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
-
-# Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", require: false
-
-# Use Sass to process CSS
-# gem "sassc-rails"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
+  
+gem 'faker', '~> 3.1'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'database_cleaner-active_record', '~> 2.0'
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
   gem 'factory_bot_rails', '~> 6.2'
-  gem 'faker', '~> 3.1'
+  gem 'rails-controller-testing'
   gem 'rspec-rails', '~> 6.0'
   gem 'shoulda-matchers', '~> 5.3'
 end
@@ -66,3 +61,8 @@ group :development do
   # gem "spring"
 end
 
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
+
+# Reduces boot times through caching; required in config/boot.rb
+gem "bootsnap", require: false

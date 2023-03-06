@@ -1,1 +1,19 @@
-Hi Commun User!
+<div class="row justify-content-center">
+  <div class="card mb-3 w-50" >
+    <div class="row g-0">
+      <div class="col-md-4">
+        <%= image_tag('avatar-default.png', class: "img-fluid rounded-start")%>
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title"><%= current_user.full_name %></h5>
+          <p class="card-text"><%= current_user.email %></p>
+          
+          <%= link_to edit_user_registration_path do %>
+            Edit User
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
