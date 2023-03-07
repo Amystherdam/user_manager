@@ -8,7 +8,6 @@
         <div class="card-body">
           <h5 class="card-title"><%= current_user.full_name %></h5>
           <p class="card-text"><%= current_user.email %></p>
-          <p class="card-text"><small class="text-muted"><%= current_user.role %></small></p>
           
           <%= link_to edit_user_registration_path do %>
             Edit User
