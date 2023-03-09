@@ -2,6 +2,15 @@ class UserPolicy < ApplicationPolicy
   def index?
     user.admin?
   end
+  
+  def create?
+    user.admin?
+  end
+
+  def new?
+    create?
+  end
+
 
   def update?
     user_is_admin_or_owner?
