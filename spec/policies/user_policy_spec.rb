@@ -30,4 +30,14 @@ RSpec.describe UserPolicy, type: :policy do
       expect(subject).not_to permit(common_user, record)
     end
   end
+
+  permissions :new?, :create? do
+    it "allows access for admins" do
+      expect(subject).to permit(admin, record)
+    end
+
+    it "allows access for the user who owns the record" do
+      expect(subject).not_to permit(common_user, record)
+    end
+  end
 end

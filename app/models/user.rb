@@ -5,4 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   enum role: { admin: 0, common_user: 1 }
+
+  validates_presence_of :full_name
 end

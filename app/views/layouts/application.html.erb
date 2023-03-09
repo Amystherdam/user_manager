@@ -11,9 +11,28 @@
   </head>
 
   <body>
-    <%= button_to destroy_user_session_path, method: :delete do %>
-      Logout
-    <% end %>
+    <div class="d-flex flex-row mb-3">
+      <div class="p-2">
+        <%= button_to destroy_user_session_path, class: "btn btn-primary" , method: :delete do %>
+          Logout
+        <% end %>
+      </div>
+
+      <% if current_user.admin? %>
+        <div class="p-2">
+          <%= link_to dashboard_path, class: "btn btn-primary" do %>
+            Dashboard
+          <% end %>
+        </div>
+
+        <div class="p-2">
+          <%= link_to new_user_administration_path, class: "btn btn-primary" do %>
+            New User
+          <% end %> 
+        </div>
+      <% end %> 
+    </div>
+
     <%= yield %>
   </body>
 </html>
