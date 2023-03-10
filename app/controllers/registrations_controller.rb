@@ -2,6 +2,7 @@ class RegistrationsController < Devise::RegistrationsController
   include RoleHelper
 
   before_action :affected_user, only: %i[update destroy]
+  before_action :dependency_injection, only: %i[update destroy]
 
   def update
     authorize @affected_user
@@ -23,12 +24,26 @@ class RegistrationsController < Devise::RegistrationsController
     if @affected_user == current_user
       super
     else
-      @affected_user.destroy
-      redirect_to dashboard_path
+      if @affected_user.destroy
+        ActionCable.server.broadcast(
+          'user-count',
+          {
+            total_user_count: @user_service.user_counts[:all],
+            admin_user_count: @user_service.user_counts[:role_admin],
+            common_user_count: @user_service.user_counts[:role_common]
+          }
+        )
+        
+        redirect_to dashboard_path
+      end
     end
   end
 
   private
+
+  def dependency_injection
+    @user_service = UserService.new
+  end
 
   def affected_user
     @affected_user = params[:user].nil? ? User.find(params[:user_id]) : User.find(params[:user][:id])

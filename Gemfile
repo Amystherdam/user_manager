@@ -19,6 +19,8 @@ gem "puma", "~> 5.0"
 gem 'devise'
 gem "pundit", "~> 2.3"
 
+gem "actioncable", "~> 7.0"
+
 # Bundle and transpile JavaScript [https://github.com/rails/jsbundling-rails]
 # gem "jsbundling-rails"
 

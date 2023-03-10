@@ -218,6 +218,7 @@ PLATFORMS
   arm64-darwin-21
 
 DEPENDENCIES
+  actioncable (~> 7.0)
   bootsnap
   database_cleaner-active_record (~> 2.0)
   debug

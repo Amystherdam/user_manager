@@ -1,5 +1,25 @@
 <p style="color: green"><%= notice %></p>
 
+<div class="d-flex flex-row mb-3">
+      <% if current_user.admin? %>
+        <div class="p-2">
+          <p id="total-user-count" class="btn btn-outline-primary">
+            <%= @total_user_count %> usuários
+          </p>
+        </div>
+        <div class="p-2">
+          <p id="admin-user-count" class="btn btn-outline-primary">
+            <%= @admin_user_count %> administradores
+          </p>
+        </div>
+        <div class="p-2">
+          <p id="common-user-count" class="btn btn-outline-primary">
+            <%= @common_user_count %> comuns
+          </p>
+        </div>
+      <% end %> 
+    </div>
+
 <div class="row gap-3">
   <% @users.each do |user| %>
     <div class="card mb-3" style="max-width: 540px;">

@@ -3,12 +3,16 @@
 
     before_action :user, only: %i[edit]
     before_action :set_roles, only: %i[ edit new create update ]
+    before_action :dependency_injection, only: %i[index create]
 
     helper_method :resource_name
     helper_method :resource
 
     def index
       @users = User.all
+      @total_user_count = @user_service.user_counts[:all]
+      @admin_user_count = @user_service.user_counts[:role_admin]
+      @common_user_count = @user_service.user_counts[:role_common]
       authorize @users
     end
 
@@ -28,6 +32,15 @@
       authorize @user
   
       if @user.save
+        ActionCable.server.broadcast(
+          'user-count',
+          {
+            total_user_count: @user_service.user_counts[:all],
+            admin_user_count: @user_service.user_counts[:role_admin],
+            common_user_count: @user_service.user_counts[:role_common]
+          }
+        )
+
         redirect_to dashboard_path, notice: 'User was successfully created'
       else
         render :new
@@ -35,6 +48,10 @@
     end
 
     private
+
+    def dependency_injection
+      @user_service = UserService.new
+    end
 
     def set_roles
       @roles = User.roles.keys
