@@ -2,6 +2,7 @@
     rescue_from ActiveRecord::RecordNotFound, with: :user_not_found
 
     before_action :user, only: %i[edit]
+    before_action :set_roles, only: %i[ edit new create update ]
 
     helper_method :resource_name
     helper_method :resource
@@ -13,6 +14,7 @@
 
     def edit
       authorize @user
+      @selected_role = @user.role
       render 'devise/registrations/edit'
     end
 
@@ -34,6 +36,10 @@
 
     private
 
+    def set_roles
+      @roles = User.roles.keys
+    end
+
     def user_not_found
       render 'errors/not_found', status: :not_found
     end
@@ -51,6 +57,6 @@
     end
 
     def user_params
-      params.require(:user).permit(:email, :password, :password_confirmation, :full_name)
+      params.require(:user).permit(:email, :password, :password_confirmation, :full_name, :role)
     end
   end

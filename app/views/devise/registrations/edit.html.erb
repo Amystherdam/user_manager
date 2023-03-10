@@ -34,6 +34,14 @@
     <%= f.password_field :current_password, autocomplete: "current-password" %>
   </div>
 
+  <% if current_user.admin? %>
+    <div class="mb-3">
+      <%= f.label :role %><br />
+      <%= f.collection_select :role, @roles, :to_s, :to_s, { selected: @selected_role } %>
+    </div>
+  <% end %>
+
+
   <div class="actions">
     <%= f.submit "Update" %>
   </div>
