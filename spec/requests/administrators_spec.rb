@@ -3,6 +3,12 @@ require 'rails_helper'
 RSpec.describe "Administrators", type: :request do
   let(:administrator) { create(:user, role: 0) }
   let(:common_user) { create(:user) }
+  let(:file) {
+    Rack::Test::UploadedFile.new(
+      File.join(Rails.root, 'spec', 'fixtures', 'files', 'example.xlsx'),
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+  }
 
   let(:valid_attributes) do
     {
@@ -10,6 +16,19 @@ RSpec.describe "Administrators", type: :request do
       email: 'user@user.com',
       password: '12345678',
       password_confirmation: '12345678'
+    }
+  end
+
+  let(:valid_file) do
+    {
+      file:,
+      channel_key: "123"
+    }
+  end
+
+  let(:invalid_file) do
+    {
+      file: nil
     }
   end
 
@@ -106,6 +125,26 @@ RSpec.describe "Administrators", type: :request do
       sign_in common_user
       get edit_user_administration_path(administrator)
       expect(response).to render_template('errors/not_authorized')
+    end
+  end
+
+  describe "POST /users_spreadsheet" do
+    it 'renders a successful response' do
+      sign_in administrator
+      post users_spreadsheet_path, params: { user: valid_file }
+      expect(response).to have_http_status(:no_content)
+    end
+
+    it 'renders a bad response' do
+      sign_in administrator
+      post users_spreadsheet_path, params: { user: invalid_file }
+      expect(response).to have_http_status(:bad_request)
+    end
+
+    it 'renders a bad response' do
+      sign_in administrator
+      post users_spreadsheet_path, params: { user: invalid_file }
+      expect(response.body).to eq('Arquivo não encontrado.')
     end
   end
 end

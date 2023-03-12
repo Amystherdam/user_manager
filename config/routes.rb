@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get 'user/new', to: 'administrators#new', as: 'new_user_administration'
   post 'user/create', to: 'administrators#create'
   get 'user/:id/edit', to: 'administrators#edit', as: 'edit_user_administration'
+  post 'user/users-spreadsheet', to: 'administrators#users_spreadsheet', as: 'users_spreadsheet'
 
   root 'home#default_home'
 end

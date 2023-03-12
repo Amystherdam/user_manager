@@ -1,4 +1,5 @@
   class AdministratorsController < ApplicationController
+
     rescue_from ActiveRecord::RecordNotFound, with: :user_not_found
 
     before_action :user, only: %i[edit]
@@ -10,10 +11,12 @@
 
     def index
       @users = User.all
+      authorize @users
+
       @total_user_count = @user_service.user_counts[:all]
       @admin_user_count = @user_service.user_counts[:role_admin]
       @common_user_count = @user_service.user_counts[:role_common]
-      authorize @users
+      @channel_key = SecureRandom.uuid.gsub('-', '')[0..4].hex
     end
 
     def edit
@@ -47,6 +50,21 @@
       end
     end
 
+    def users_spreadsheet
+      if params[:user] && params[:user][:file] && params[:user][:channel_key]
+        file = params[:user][:file].tempfile
+        channel_key = params[:user][:channel_key]
+        file_path = Rails.root.join('tmp', 'uploads', params[:user][:file].original_filename)
+
+        FileUtils.mkdir_p(File.dirname(file_path))
+        FileUtils.mv(file.path, file_path)
+
+        UploadUsersSpreadsheetJob.perform_later(file_path.to_s, channel_key)
+      else
+        render plain: 'Arquivo não encontrado.', status: :bad_request
+      end
+    end
+
     private
 
     def dependency_injection
@@ -74,6 +92,6 @@
     end
 
     def user_params
-      params.require(:user).permit(:email, :password, :password_confirmation, :full_name, :role)
+      params.require(:user).permit(:email, :password, :password_confirmation, :full_name, :role, :file)
     end
   end

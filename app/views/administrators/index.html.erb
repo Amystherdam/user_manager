@@ -17,6 +17,22 @@
             <%= @common_user_count %> comuns
           </p>
         </div>
+
+        <div class="p-2">
+          <%= form_for(:user, url: users_spreadsheet_path) do |f| %>
+            <div class="field">
+              <%= f.hidden_field :channel_key, value: @channel_key %>
+
+              <div class="input-group mb-3">
+                <%= f.label :file, "Upload", id: "file_label", class:"input-group-text" %>
+                <%= f.file_field :file, class: "form-control"%>
+                <%= f.submit "Send", class: "btn btn-secondary" %>
+              </div>
+            </div>
+          <%end%>
+          <p></p>
+
+        </div>
       <% end %> 
     </div>
 

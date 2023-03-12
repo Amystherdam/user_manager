@@ -9,5 +9,9 @@ RSpec.describe AdministratorsController, type: :routing do
     it 'routes to #edit' do
       expect(get: 'user/1/edit').to route_to('administrators#edit', id: '1')
     end
+
+    it 'routes to #users_spreadsheet' do
+      expect(post: '/user/users-spreadsheet').to route_to('administrators#users_spreadsheet')
+    end
   end
 end
